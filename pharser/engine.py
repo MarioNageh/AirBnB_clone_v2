@@ -37,5 +37,5 @@ class ParserEngine:
         return data
 
 
-data = "BaseModel name=\"MARIO\" price=15.5 age=10 kingOfBin=True"
-ParserEngine.parse_create(data)
+# data = "BaseModel name=\"MARIO\" price=15.5 age=10 kingOfBin=True"
+# ParserEngine.parse_create(data)
