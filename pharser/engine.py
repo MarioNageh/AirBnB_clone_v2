@@ -12,6 +12,7 @@ class ParserEngine:
 
             if value[0] == '"' and value[-1] == '"':
                 value = value[1:-1]
+                value = value.replace("_", " ")
                 data[key] = value
             elif value.isdigit():
                 value = int(value)
