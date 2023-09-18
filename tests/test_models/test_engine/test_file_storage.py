@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """ Module for testing file storage"""
 import unittest
+from datetime import datetime
+
 from models.base_model import BaseModel
 from models import storage
 import os
@@ -107,3 +109,27 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_add_new_attr(self):
+        """ New attribute is added to object
+        if id Exists in attr will try to convert
+        to datetime
+        """
+        new = BaseModel(name="Betty")
+        self.assertEqual(new.name, "Betty")
+        self.assertTrue(hasattr(new, "id"))
+
+    def test_add_new_attr_id(self):
+        """ New attribute is added to object
+        if id Exists in attr will try to convert
+        to datetime
+        """
+        new = BaseModel(name="Betty", id=0x123456,
+                        created_at="2021-02-17T22:46:38.883037",
+                        updated_at="2021-02-17T22:46:38.883037",
+                        __class__="BaseModel")
+
+        self.assertEqual(new.name, "Betty")
+        self.assertTrue(hasattr(new, "id"))
+        self.assertEqual(new.id, 0x123456)
+        self.assertEqual(new.created_at, datetime(2021, 2, 17, 22, 46, 38, 883037))
