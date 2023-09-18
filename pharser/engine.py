@@ -25,11 +25,11 @@ class ParserEngine:
             "args": None
         }
         if not data:
-            raise ValueError("Create command must have A Args <<Class name> <param 1> <param 2> <param 3>")
+            return data
 
         data_split = args.split(" ")
         if len(data_split) < 2:
-            raise ValueError("Create command must have A Args <Class name> <param 1>")
+            return data
 
         data["class_name"] = data_split[0]
         data["args"] = ParserEngine.extract_args(data_split[1:])
