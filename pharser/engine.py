@@ -3,6 +3,9 @@ class ParserEngine:
     def extract_args(args):
         data = {}
         for arg in args:
+            if "=" not in arg:
+                continue
+
             key, value = arg.split("=")
             if not key or not value:
                 continue
