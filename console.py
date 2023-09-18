@@ -117,7 +117,6 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Create an object of any class"""
         arg_dic = ParserEngine.parse_create(args)
-
         if not args:
             print("** class name missing **")
             return

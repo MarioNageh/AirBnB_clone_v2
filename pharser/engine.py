@@ -27,7 +27,7 @@ class ParserEngine:
             "class_name": None,
             "args": None
         }
-        if not data:
+        if not args:
             return data
 
         data_split = args.split(" ")
@@ -39,4 +39,4 @@ class ParserEngine:
 
 
 # data = "BaseModel name=\"Holberton\" number=89 float=1.2"
-# ParserEngine.parse_create(data)
+# print(ParserEngine.parse_create(data))
