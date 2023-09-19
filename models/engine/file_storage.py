@@ -61,5 +61,5 @@ class FileStorage:
             return
         object_id = obj.__class__.__name__ + '.' + obj.id
         if object_id in self.all():
-            del self.all()[object_id]
+            self.all().pop(object_id)
             self.save()
