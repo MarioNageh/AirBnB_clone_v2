@@ -15,7 +15,7 @@ class FileStorage:
 
         new_dict = {}
         for key, val in FileStorage.__objects.items():
-            if cls.__name__ == val.__class__:
+            if isinstance(val, cls):
                 new_dict[key] = val
 
     def new(self, obj):
@@ -62,3 +62,4 @@ class FileStorage:
         object_id = obj.__class__.__name__ + '.' + obj.id
         if object_id in self.all():
             del self.all()[object_id]
+            self.save()
