@@ -1,4 +1,5 @@
 class ParserEngine:
+
     @staticmethod
     def extract_args(args):
         data = {}
@@ -41,6 +42,6 @@ class ParserEngine:
         # print(data)
         return data
 
-
+#
 # data = "BaseModel name=\"Holberton\" number=89 float=1.2"
 # print(ParserEngine.parse_create(data))
