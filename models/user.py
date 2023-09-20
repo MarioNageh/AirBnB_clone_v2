@@ -12,4 +12,4 @@ class User(BaseModel, Base, ExtendedBase):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128))
     last_name = Column(String(128))
-    # plases = relationship("Place", backref='user',cascade="delete")
+    plases = relationship("Place", backref='user',cascade="delete")

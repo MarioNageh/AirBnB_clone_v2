@@ -56,13 +56,12 @@ class DBStorage:
     def reload(self):
         """Creates all tables in the database"""
         from models.user import User
-        from models.place import Place
-        from models.review import Review
-        from models.amenity import Amenity
         from models.state import State
         from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
         from models.base_model import Base
-
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
