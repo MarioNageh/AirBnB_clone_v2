@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
 from sqlalchemy import Column, String, DateTime,ForeignKey
+from sqlalchemy.orm import relationship
 
 from models.base_model import BaseModel, Base, ExtendedBase
 
@@ -12,3 +13,4 @@ class City(BaseModel, Base,ExtendedBase):
                       primary_key=True,
                       nullable=False)
     name = Column(String(128), nullable=False)
+    plases = relationship("Place", backref='city',cascade="delete")
