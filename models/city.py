@@ -10,7 +10,6 @@ class City(BaseModel, Base,ExtendedBase):
     """ The city class, contains state ID and name """
     __tablename__ = 'cities'
     state_id = Column(String(60), ForeignKey('states.id'),
-                      primary_key=True,
                       nullable=False)
     name = Column(String(128), nullable=False)
-    plases = relationship("Place", backref='city',cascade="delete")
+    plases = relationship("Place", backref='cities',cascade="delete")

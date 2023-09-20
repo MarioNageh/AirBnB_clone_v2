@@ -5,8 +5,7 @@ from os import getenv
 
 from sqlalchemy.orm import sessionmaker, scoped_session
 
-from models.base_model import ExtendedBase
-
+from models.base_model import ExtendedBase, Base
 
 
 class DBStorage:
@@ -23,7 +22,6 @@ class DBStorage:
               f"{getenv('HBNB_MYSQL_DB')}"
 
         self.__engine = create_engine(url, pool_pre_ping=True)
-
         current_db_mode = getenv('HBNB_ENV')
         if current_db_mode == 'test':
             Base.metadata.drop_all(self.__engine)

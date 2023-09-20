@@ -5,7 +5,7 @@ from sqlalchemy import Column, String, DateTime, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 
 
-class Place(BaseModel, Base, ExtendedBase):
+class Place(BaseModel):
     """ A place to stay """
     __tablename__ = 'places'
 
@@ -16,7 +16,7 @@ class Place(BaseModel, Base, ExtendedBase):
     number_rooms = Column(Integer, nullable=False, default=0)
     number_bathrooms = Column(Integer, nullable=False, default=0)
     max_guest = Column(Integer, nullable=False, default=0)
-    price_by_night =  Column(Integer, nullable=False, default=0)
+    price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     amenity_ids = []

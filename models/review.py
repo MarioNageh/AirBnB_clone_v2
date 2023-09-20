@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, ExtendedBase, Base
 
 
-class Review(BaseModel, Base, ExtendedBase):
+class Review(BaseModel):
     """ Review classto store review information """
     place_id = ""
     user_id = ""

@@ -3,5 +3,5 @@
 from models.base_model import BaseModel, Base, ExtendedBase
 
 
-class Amenity(BaseModel, Base, ExtendedBase):
+class Amenity(BaseModel):
     name = ""
