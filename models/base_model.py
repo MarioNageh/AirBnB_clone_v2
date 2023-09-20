@@ -3,9 +3,28 @@
 import uuid
 from datetime import datetime
 
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+
+
+Base = declarative_base()
+
+class ExtendedBase:
+    _subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        ExtendedBase._subclasses.append(cls)
+
+    @classmethod
+    def get_subclasses(cls):
+        return cls._subclasses
 
 class BaseModel:
     """A base class for all hbnb models"""
+    id = Column(String(60),primary_key=True)
+    created_at = Column(DateTime(), default=datetime.utcnow())
+    updated_at = Column(DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow())
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -13,7 +32,6 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
 
         elif 'id' not in kwargs:
             from models import storage
@@ -21,7 +39,6 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             self.__dict__.update(kwargs)
-            storage.new(self)
         else:
             kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
                                                      '%Y-%m-%dT%H:%M:%S.%f')
@@ -32,13 +49,17 @@ class BaseModel:
 
     def __str__(self):
         """Returns a string representation of the instance"""
+        new_dict = self.__dict__.copy()
+        if '_sa_instance_state' in new_dict:
+            del new_dict['_sa_instance_state']
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        return '[{}] ({}) {}'.format(cls, self.id, new_dict)
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -49,4 +70,7 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        """Coming From SQL Alchemy"""
+        if '_sa_instance_state' in dictionary:
+            del dictionary['_sa_instance_state']
         return dictionary
