@@ -6,8 +6,8 @@ from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import declarative_base
 
-
 Base = declarative_base()
+
 
 class ExtendedBase:
     _subclasses = []
@@ -20,11 +20,14 @@ class ExtendedBase:
     def get_subclasses(cls):
         return cls._subclasses
 
+
 class BaseModel:
     """A base class for all hbnb models"""
-    id = Column(String(60),primary_key=True)
+    id = Column(String(60), primary_key=True)
     created_at = Column(DateTime(), default=datetime.utcnow())
-    updated_at = Column(DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow())
+    updated_at = Column(DateTime(),
+                        default=datetime.utcnow, onupdate=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -66,8 +69,8 @@ class BaseModel:
         """Convert instance into dict format"""
         dictionary = {}
         dictionary.update(self.__dict__)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
+        obj = {'__class__': (str(type(self)).split('.')[-1]).split('\'')[0]}
+        dictionary.update(obj)
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         """Coming From SQL Alchemy"""

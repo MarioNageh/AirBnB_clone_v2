@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from os import getenv
-
 from sqlalchemy.testing.schema import Table
-
 from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel, ExtendedBase, Base
-from sqlalchemy import Column, String, DateTime, ForeignKey, Integer, Float
+from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 
 place_amenity = Table(
