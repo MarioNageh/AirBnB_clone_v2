@@ -13,3 +13,4 @@ class User(BaseModel, Base, ExtendedBase):
     first_name = Column(String(128))
     last_name = Column(String(128))
     plases = relationship("Place", backref='user',cascade="delete")
+    rewies = relationship("Review", backref='user',cascade="delete")
