@@ -8,7 +8,7 @@ from datetime import datetime
 def do_pack():
     """Function To Compress File Using tar"""
     try:
-        current_time = datetime.now().strftime("%Y%m%d%H%M")
+        current_time = datetime.now().strftime("%Y%m%d%H%M%S")
         folder_to_save = "versions"
         local(f"mkdir -p {folder_to_save}")
         file_name_generated = f"web_static_{current_time}.tgz"
