@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Fabric script that generates a .tgz archive from the contents of the"""
-from fabric.api import local, task
+from fabric.api import local, task, sudo
 from datetime import datetime
 
 
@@ -54,21 +54,21 @@ def do_deploy(archive_path):
             file_name_generated = file_name_generated.split("/")[-1]
 
             server_archive_path = f"/tmp/{file_name_generated}.tgz"
-            run(f"mkdir -p {folder_to_save}/{file_name_generated}")
-            run(f"tar -xzf /tmp/{file_name_generated}.tgz "
-                f"-C {folder_to_save}/{file_name_generated}")
+            sudo(f"mkdir -p {folder_to_save}/{file_name_generated}")
+            sudo(f"tar -xzf /tmp/{file_name_generated}.tgz "
+                 f"-C {folder_to_save}/{file_name_generated}")
 
-            run(f"rm {server_archive_path}")
-            run(f"mv {folder_to_save}/{file_name_generated}/web_static/*"
-                f" {folder_to_save}/{file_name_generated}/")
-            run(f"rm -rf {folder_to_save}/{file_name_generated}/web_static")
+            sudo(f"rm {server_archive_path}")
+            sudo(f"mv {folder_to_save}/{file_name_generated}/web_static/*"
+                 f" {folder_to_save}/{file_name_generated}/")
+            sudo(f"rm -rf {folder_to_save}/{file_name_generated}/web_static")
 
             try:
-                run(f'rm -rf /data/web_static/current')
+                sudo(f'rm -rf /data/web_static/current')
             except BaseException as e:
                 pass
-            run(f"ln -s {folder_to_save}/{file_name_generated}"
-                f" /data/web_static/current")
+            sudo(f"ln -s {folder_to_save}/{file_name_generated}"
+                 f" /data/web_static/current")
             print("New version deployed!")
         return True
     except Exception as e:
