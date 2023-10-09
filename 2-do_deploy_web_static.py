@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Fabric script that generates a .tgz archive from the contents of the"""
-from fabric.api import local, task, sudo
+from fabric.api import *
 from datetime import datetime
 
 
@@ -28,6 +28,10 @@ def get_ip_address(domain):
         return False
 
 
+env.hosts = [get_ip_address("web-01.mn-dev.tech"),
+             get_ip_address("web-02.mn-dev.tech")]
+
+
 @task
 def do_deploy(archive_path):
     """Function To Deploy File"""
@@ -36,40 +40,33 @@ def do_deploy(archive_path):
     do_deploy:archive_path=versions/web_static_20231009012456.tgz
     -i ./alx -u root
     """
-    from fabric.api import env, put, run
     import os
-    env.hosts = [get_ip_address("web-01.mn-dev.tech"),
-                 get_ip_address("web-02.mn-dev.tech")]
     if not os.path.exists(archive_path):
         return False
     try:
-        for host in env.hosts:
-            if not host:
-                continue
-            env.host_string = host
-            put(archive_path, "/tmp/")
+        put(archive_path, "/tmp/")
 
-            folder_to_save = "/data/web_static/releases"
-            file_name_generated = archive_path.split(".")[0]
-            file_name_generated = file_name_generated.split("/")[-1]
+        folder_to_save = "/data/web_static/releases"
+        file_name_generated = archive_path.split(".")[0]
+        file_name_generated = file_name_generated.split("/")[-1]
 
-            server_archive_path = f"/tmp/{file_name_generated}.tgz"
-            sudo(f"mkdir -p {folder_to_save}/{file_name_generated}")
-            sudo(f"tar -xzf /tmp/{file_name_generated}.tgz "
-                 f"-C {folder_to_save}/{file_name_generated}")
+        server_archive_path = f"/tmp/{file_name_generated}.tgz"
+        sudo(f"mkdir -p {folder_to_save}/{file_name_generated}")
+        sudo(f"tar -xzf /tmp/{file_name_generated}.tgz "
+             f"-C {folder_to_save}/{file_name_generated}")
 
-            sudo(f"rm {server_archive_path}")
-            sudo(f"mv {folder_to_save}/{file_name_generated}/web_static/*"
-                 f" {folder_to_save}/{file_name_generated}/")
-            sudo(f"rm -rf {folder_to_save}/{file_name_generated}/web_static")
+        sudo(f"rm {server_archive_path}")
+        sudo(f"mv {folder_to_save}/{file_name_generated}/web_static/*"
+             f" {folder_to_save}/{file_name_generated}/")
+        sudo(f"rm -rf {folder_to_save}/{file_name_generated}/web_static")
 
-            try:
-                sudo(f'rm -rf /data/web_static/current')
-            except BaseException as e:
-                pass
-            sudo(f"ln -s {folder_to_save}/{file_name_generated}"
-                 f" /data/web_static/current")
-            print("New version deployed!")
+        try:
+            sudo(f'rm -rf /data/web_static/current')
+        except BaseException as e:
+            pass
+        sudo(f"ln -s {folder_to_save}/{file_name_generated}"
+             f" /data/web_static/current")
+        print("New version deployed!")
         return True
     except Exception as e:
         return False
