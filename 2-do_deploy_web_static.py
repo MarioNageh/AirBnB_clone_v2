@@ -32,7 +32,7 @@ env.hosts = [get_ip_address("web-01.mn-dev.tech"),
              get_ip_address("web-02.mn-dev.tech")]
 
 
-@task
+
 def do_deploy(archive_path):
     """Function To Deploy File"""
     """
