@@ -73,3 +73,38 @@ def do_deploy(archive_path):
         return True
     except Exception as e:
         return False
+
+
+@task
+def deploy():
+    """full deployment"""
+    try:
+        path = do_pack()
+        if path is None:
+            return False
+        return do_deploy(path)
+    except Exception as e:
+        return False
+
+
+@task
+def install_bash_script(path):
+    """install bash script"""
+    from fabric.api import env, put, run
+    import os
+    env.hosts = [get_ip_address("web-01.mn-dev.tech"),
+                 get_ip_address("web-02.mn-dev.tech")]
+    if not os.path.exists(path):
+        return False
+    try:
+        for host in env.hosts:
+            if not host:
+                continue
+            env.host_string = host
+            put(path, "/tmp/")
+            sudo(f"chmod +x /tmp/{path}")
+            sudo(f"bash /tmp/{path}")
+            print("Script Finished")
+        return True
+    except Exception as e:
+        return False
