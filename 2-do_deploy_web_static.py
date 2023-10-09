@@ -31,7 +31,8 @@ def get_ip_address(domain):
 env.hosts = [get_ip_address("web-01.mn-dev.tech"),
              get_ip_address("web-02.mn-dev.tech")]
 
-
+env.user = 'ubuntu'
+env.key_filename = '~/.ssh/alx'
 
 def do_deploy(archive_path):
     """Function To Deploy File"""
