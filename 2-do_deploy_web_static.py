@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Fabric script that generates a .tgz archive from the contents of the"""
-from fabric.api import *
+from fabric.api import sudo, env, put, local, task
 from datetime import datetime
 
 
@@ -14,7 +14,7 @@ def do_pack():
         file_name_generated = f"web_static_{current_time}.tgz"
         local(f"tar -cvzf {folder_to_save}/{file_name_generated} web_static")
         return f"{folder_to_save}/{file_name_generated}"
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -61,14 +61,14 @@ def do_deploy(archive_path):
         sudo(f"rm -rf {folder_to_save}/{file_name_generated}/web_static")
 
         try:
-            sudo(f'rm -rf /data/web_static/current')
-        except BaseException as e:
+            sudo('rm -rf /data/web_static/current')
+        except BaseException:
             pass
         sudo(f"ln -s {folder_to_save}/{file_name_generated}"
              f" /data/web_static/current")
         print("New version deployed!")
         return True
-    except Exception as e:
+    except Exception:
         return False
 
 
@@ -80,14 +80,13 @@ def deploy():
         if path is None:
             return False
         return do_deploy(path)
-    except Exception as e:
+    except Exception:
         return False
 
 
 @task
 def install_bash_script(path):
     """install bash script"""
-    from fabric.api import env, put, run
     import os
     env.hosts = [get_ip_address("web-01.mn-dev.tech"),
                  get_ip_address("web-02.mn-dev.tech")]
@@ -103,5 +102,5 @@ def install_bash_script(path):
             sudo(f"bash /tmp/{path}")
             print("Script Finished")
         return True
-    except Exception as e:
+    except Exception:
         return False
