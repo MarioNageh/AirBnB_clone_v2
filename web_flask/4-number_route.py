@@ -31,6 +31,12 @@ def python_text(text="is cool"):
     return f"Python {escape(text.replace('_', ' '))}"
 
 
+@app.route("/number/<int:n>", strict_slashes=False)
+def is_a_number(n):
+    """handling numbers only"""
+    return f"{escape(n)} is a number"
+
+
 if __name__ == '__main__':
     """Listening on"""
     app.run(port=5000, host='0.0.0.0')
