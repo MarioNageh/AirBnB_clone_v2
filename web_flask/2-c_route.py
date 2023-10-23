@@ -23,6 +23,11 @@ def c_text(text):
     """handling varible routes"""
     return f"C {escape(text.replace('_', ' '))}"
 
+@app.route("/python/", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python_text(text="is cool"):
+    """handling varible routes"""
+    return f"Python {escape(text.replace('_', ' '))}"
 
 if __name__ == '__main__':
     """Listening on"""
