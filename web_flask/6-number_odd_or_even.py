@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """This module starts a Flask web application"""""
-from flask import Flask,render_template
+from flask import Flask, render_template
 from markupsafe import escape
+
 app = Flask(__name__)
 
 
@@ -34,6 +35,7 @@ def python_text(text="is cool"):
 def is_a_number(n):
     """handling numbers only"""
     return f"{escape(n)} is a number"
+
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):

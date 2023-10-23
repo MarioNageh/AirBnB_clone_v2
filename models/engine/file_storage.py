@@ -64,3 +64,7 @@ class FileStorage:
         if object_id in self.all():
             self.all().pop(object_id)
             self.save()
+
+    def close(self):
+        """call reload() method for deserializing the JSON file to objects"""
+        self.reload()
